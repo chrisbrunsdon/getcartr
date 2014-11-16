@@ -7,7 +7,12 @@ output:
 A Front End For the Rcartogram Package
 ========================================================
 
-This demonstrates the *getcartr* package. Firstly load it:
+This demonstrates the *getcartr* package. Firstly,  make sure you have the `Rcartogram` package installed.  This can be downloaded from http://www.omegahat.org/Rcartogram/ .
+Next - if you haven't already done so, install this package from github - make sure `devtools` is installed in R,  then enter
+`library(devtools);install_github('chrisbrunsdon/getcartr',subdir='getcartr')`.
+Now you are ready to use the package:
+
+Now load the package:
 ```{r,message=FALSE,warning=FALSE}
 library(getcartr)
 ```
