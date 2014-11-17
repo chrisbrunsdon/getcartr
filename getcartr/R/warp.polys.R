@@ -6,6 +6,7 @@
 #'
 #' @param spdf a \code{SpatialPolygons} or \code{SpatialPolygonsDataFrame} object to be transformed
 #' @param warper a \code{SpatialPolygonsDataFrame} or \code{SpatialPolygons} object resulting from a previous \code{quick.carto} evocation
+#' @param prec The precision when carrying out interpolation, in units of the warping grid - 0.5 works well
 #' @return a \code{SpatialPolygons} or \code{SpatialPolygonsDataFrame} object resulting from the transformation.
 #' 
 #' @references A Diffusion-based method for producing density equalizing maps, Michael T. Gastner and M. E. J. Newman, Proc. Natl. Acad. Sci. USA 101, 7499-7504 (2004)
@@ -37,13 +38,14 @@
 #' 
 #' 
 
-warp.polys <- function(spdf,warper) {
+warp.polys <- function(spdf,warper,prec=0.5) {
   wg <- attr(warper,'warp')
   if (is.null(wg)) stop("Cartogram object not created via 'quick.carto'")
   warpverb <- function(xy,wg) {
     cents = attr(wg,"cents")
     sizes = attr(wg,"sizes")
     xyt = t((t(xy)-cents)/sizes)
+    xyt <- .decimate(xyt,prec)
     .interpolate(xyt,wg)}
   res <- .apply.polys(spdf,warpverb,wg) 
   if (class(spdf) == "SpatialPolygonsDataFrame") {

@@ -3,12 +3,14 @@
 \alias{warp.lines}
 \title{Warp a SpatialLines or SpatialLinesDataFrame object according a to cartogram transform}
 \usage{
-warp.lines(sldf, warper)
+warp.lines(sldf, warper, prec = 0.5)
 }
 \arguments{
 \item{sldf}{a \code{SpatialLines} or \code{SpatialLinesDataFrame} object to be transformed}
 
 \item{warper}{a \code{SpatialPolygonsDataFrame} or \code{SpatialPolygons} object resulting from a previous \code{quick.carto} evocation}
+
+\item{prec}{The precision when carrying out interpolation, in units of the warping grid - 0.5 works well}
 }
 \value{
 a \code{SpatialLines} or \code{SpatialLinesDataFrame} object resulting from the transformation.

@@ -163,11 +163,12 @@ library(Rcartogram)
 #     cbind(max(xr)-newx,max(yr)-newy)}
 #   .apply.polys(spdf,warpverb,wg) }
    
-.direct.warp.polys <- function(spdf,wg) {
+.direct.warp.polys <- function(spdf,wg,prec) {
   warpverb <- function(xy,wg) {
     cents = attr(wg,"cents")
     sizes = attr(wg,"sizes")
     xyt = t((t(xy)-cents)/sizes)
+    xyt <- .decimate(xyt,prec)
     .interpolate(xyt,wg)}
   .apply.polys(spdf,warpverb,wg) }
 
@@ -212,3 +213,33 @@ library(Rcartogram)
            z[cbind(lx1, ly1 + 1)] * (1 - ex) * ey +
            z[cbind(lx1 + 1, ly1 + 1)] * ex * ey)
 }
+
+.lengths <- function(x) sqrt((x[-1,1] - x[-nrow(x),1])^2 + (x[-1,2] - x[-nrow(x),2])^2)
+
+.butlast <- function(x) x[-length(x)]
+
+.find.prec <- function(x) {
+  bb <- x@bbox
+  min(bb[1,2] - bb[1,1],bb[2,2] - bb[2,1])/100
+}
+
+.chopper <- function(x) x[-length(x)] + (x[-1] - x[-length(x)])/2
+.preciser <- function(x) .butlast(array(rbind(x,c(.chopper(x),0))))
+.preciser2D <- function(x) cbind(.preciser(x[,1]),.preciser(x[,2]))
+
+.decimate.core <- function(x,pr) {
+  repeat {
+    if (max(.lengths(x)) < pr) break
+    x <- .preciser2D(x)
+  }
+  return(x)
+}
+
+.decimate <- function(x,pr) {
+  nr <- nrow(x)
+  result <- .decimate.core(x[1:2,],pr)
+  if (nr>2)
+    for (i in 3:nrow(x)) result <- rbind(result,.decimate.core(x[c(i-1,i),],pr)[-1,])
+  return(result)
+}
+

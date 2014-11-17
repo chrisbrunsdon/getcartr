@@ -3,12 +3,14 @@
 \alias{warp.polys}
 \title{Warp a SpatialPolygons or SpatialPolygonsDataFrame object according a to cartogram transform}
 \usage{
-warp.polys(spdf, warper)
+warp.polys(spdf, warper, prec = 0.5)
 }
 \arguments{
 \item{spdf}{a \code{SpatialPolygons} or \code{SpatialPolygonsDataFrame} object to be transformed}
 
 \item{warper}{a \code{SpatialPolygonsDataFrame} or \code{SpatialPolygons} object resulting from a previous \code{quick.carto} evocation}
+
+\item{prec}{The precision when carrying out interpolation, in units of the warping grid - 0.5 works well}
 }
 \value{
 a \code{SpatialPolygons} or \code{SpatialPolygonsDataFrame} object resulting from the transformation.
