@@ -1,33 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
     <title>Getcartr by chrisbrunsdon</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Getcartr</h1>
+        <p class="header">Front end for rcartogram</p>
 
-    <header>
-      <div class="container">
-        <h1>Getcartr</h1>
-        <h2>Front end for rcartogram</h2>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/chrisbrunsdon/getcartr/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/chrisbrunsdon/getcartr/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/chrisbrunsdon/getcartr">View On GitHub</a></li>
+        </ul>
 
-        <section id="downloads">
-          <a href="https://github.com/chrisbrunsdon/getcartr/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/chrisbrunsdon/getcartr/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/chrisbrunsdon/getcartr" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/chrisbrunsdon">chrisbrunsdon</a></p>
 
-    <div class="container">
-      <section id="main_content">
+
+      </header>
+      <section>
         <h1>
 <a id="a-front-end-for-the-rcartogram-package" class="anchor" href="#a-front-end-for-the-rcartogram-package" aria-hidden="true"><span class="octicon octicon-link"></span></a>A Front End For the Rcartogram Package</h1>
 
@@ -47,8 +49,6 @@ plot(georgia.carto)
 title("Cartogram Projection")
 </code></pre>
 
-<p><img src="https://raw.githubusercontent.com/chrisbrunsdon/getcartr/master/demo_files/figure-markdown_strict/unnamed-chunk-2-1.png" alt=""></p>
-
 <p>and plot the transformation mesh:</p>
 
 <pre><code># Load an example SpatialPolygonsDataFrame from GISTools
@@ -59,8 +59,6 @@ georgia.carto &lt;- quick.carto(georgia2,georgia2$TotPop90)
 # Draw the mesh
 mesh(georgia.carto)
 </code></pre>
-
-<p><img src="https://raw.githubusercontent.com/chrisbrunsdon/getcartr/master/demo_files/figure-markdown_strict/unnamed-chunk-3-1.png" alt=""></p>
 
 <p>and apply the cartogram transform to new sets of points:</p>
 
@@ -80,8 +78,6 @@ title('Original projection')
 plot(georgia.carto,border='grey'); plot(pset.carto, add=T, col='red')
 title('Cartogram projection')
 </code></pre>
-
-<p><img src="https://raw.githubusercontent.com/chrisbrunsdon/getcartr/master/demo_files/figure-markdown_strict/unnamed-chunk-4-1.png" alt=""></p>
 
 <p>or lines:</p>
 
@@ -103,8 +99,6 @@ plot(georgia.carto,border='grey'); plot(aline.carto, add=T, col='red')
 title('Cartogram projection')
 </code></pre>
 
-<p><img src="https://raw.githubusercontent.com/chrisbrunsdon/getcartr/master/demo_files/figure-markdown_strict/unnamed-chunk-5-1.png" alt=""></p>
-
 <p>... or areas.</p>
 
 <pre><code># Create a pseudocircle with 100 segments
@@ -123,8 +117,6 @@ title('Original projection')
 plot(georgia.carto,border='grey'); plot(circ.carto, add=T, col=rgb(1,0,0,0.4), border=NA)
 title('Cartogram projection')
 </code></pre>
-
-<p><img src="https://raw.githubusercontent.com/chrisbrunsdon/getcartr/master/demo_files/figure-markdown_strict/unnamed-chunk-6-1.png" alt=""></p>
 
 <h1>
 <a id="alternative-approach" class="anchor" href="#alternative-approach" aria-hidden="true"><span class="octicon octicon-link"></span></a>Alternative approach</h1>
@@ -155,11 +147,12 @@ plot(to.carto(roads),add=TRUE,col='lightgrey')
 # Add forced entry residential burglaries, transformed to cartogram space
 plot(to.carto(burgres.f),add=TRUE,col='darkred',pch=16)
 </code></pre>
-
-<p><img src="https://raw.githubusercontent.com/chrisbrunsdon/getcartr/master/demo_files/figure-markdown_strict/unnamed-chunk-7-1.png" alt=""></p>
       </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-    
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
