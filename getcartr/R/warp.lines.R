@@ -47,4 +47,8 @@ warp.lines <- function(sldf,warper) {
     sizes = attr(wg,"sizes")
     xyt = t((t(xy)-cents)/sizes)
     .interpolate(xyt,wg)}
-  .apply.lines(sldf,warpverb,wg) }
+  res <- .apply.lines(sldf,warpverb,wg) 
+  if (class(sldf) == "SpatialLinesDataFrame") {
+    res = SpatialLinesDataFrame(res,slot(sldf,'data'))}
+  attr(res,'warp') <- attr(warper,'warp')
+  return(res)}

@@ -45,4 +45,8 @@ warp.polys <- function(spdf,warper) {
     sizes = attr(wg,"sizes")
     xyt = t((t(xy)-cents)/sizes)
     .interpolate(xyt,wg)}
-  .apply.polys(spdf,warpverb,wg) }
+  res <- .apply.polys(spdf,warpverb,wg) 
+  if (class(spdf) == "SpatialPolygonsDataFrame") {
+    res = SpatialPolygonsDataFrame(res,slot(spdf,'data'))}
+  attr(res,'warp') <- attr(warper,'warp')
+  return(res)}

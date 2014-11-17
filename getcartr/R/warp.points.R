@@ -46,4 +46,5 @@ warp.points <- function(pts,warper) {
   result = SpatialPoints(.interpolate(xyt,wg))
   if (class(pts) == "SpatialPointsDataFrame") {
     result = SpatialPointsDataFrame(result,slot(pts,'data'))}
-  result}
+  attr(result,'warp') <- attr(warper,'warp')
+  return(result)}
