@@ -37,8 +37,8 @@ carto.transform <- function(spdf,v,extend=0.05,res=128,index=1,thresh=0.1,blur=0
   poly <- quick.carto(spdf,v,extend,res,index,thresh,blur)
   result <- function(obj) {
     if (grepl("SpatialPolygons",class(obj))) return(warp.polys(obj,poly,prec=prec))
-    if (grepl("SpatialPoints",class(obj))) return(warp.points(obj,poly,prec=prec))
-    if (grepl("SpatialLines",class(obj))) return(warp.lines(obj,poly))
+    if (grepl("SpatialPoints",class(obj))) return(warp.points(obj,poly))
+    if (grepl("SpatialLines",class(obj))) return(warp.lines(obj,poly,prec))
     stop("Could not identify object to be warped as class Spatial*")
   }
   return(result)
