@@ -21,7 +21,7 @@ library(getcartr)
 
 ```{r fig.width=11, fig.height=7}
 data(georgia)
-georgia.carto <- quick.carto(georgia,georgia2$TotPop90)
+georgia.carto <- quick.carto(georgia,georgia2$TotPop90, blur=1)
 par(mfrow=c(1,2),mar=c(0.5,0.5,3,0.5))
 plot(georgia2)
 title("Original Projection")

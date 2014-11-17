@@ -3,7 +3,8 @@
 \alias{quick.carto}
 \title{Create a cartogram SpatialPolygonsDataFrame}
 \usage{
-quick.carto(spdf, v, extend = 0.05, res = 128, index = 1, thresh = 0)
+quick.carto(spdf, v, extend = 0.05, res = 128, index = 1, thresh = 0,
+  blur = 0)
 }
 \arguments{
 \item{spdf}{A \code{SpatialPolygonsDataFrame}}
@@ -17,6 +18,8 @@ quick.carto(spdf, v, extend = 0.05, res = 128, index = 1, thresh = 0)
 \item{index}{Index of data item to be used for cartogram - only used if \code{v} is missing}
 
 \item{thresh}{Lowest density value allowed - will replace pixels with \code{max(value,thresh)}}
+
+\item{blur}{Degree of Gaussian blur to apply to density grid,  prior to computing the cartogram transform - default is 0}
 }
 \value{
 A \code{SpatialPolygonsDataFrame} containing the cartogram.  Also has an

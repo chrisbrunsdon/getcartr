@@ -4,20 +4,22 @@
 \title{Create a warping function to apply to Spatial* and Spatial*DataFrame objects}
 \usage{
 carto.transform(spdf, v, extend = 0.05, res = 128, index = 1,
-  thresh = 0)
+  thresh = 0.1, blur = 0)
 }
 \arguments{
 \item{spdf}{A \code{SpatialPolygonsDataFrame}}
 
 \item{v}{The variable providing the values - typically population counts}
 
-\item{extend}{The extent beyond the limits of the \code{SpatialPolygonsDataFrame} to estimate the warping as a proportion of span}
+\item{extend}{The extent beyond the limits of the \code{SpatialPolygonsDataFrame} to estimate the warping as a proportion of span - default 0.05}
 
-\item{res}{The resolution of the grid for the warping}
+\item{res}{The resolution of the grid for the warping - default 128}
 
 \item{index}{Index of data item to be used for cartogram - only used if \code{v} is missing}
 
 \item{thresh}{Lowest density value allowed - will replace pixels with \code{max(value,thresh*mean(value))} - 0.1 works well}
+
+\item{blur}{Degree of Gaussian blur to apply to density grid,  prior to computing the cartogram transform - default is 0}
 }
 \value{
 a function taking a \code{Spatial*} or \code{Spatial*DataFrame} object,  returning a warped version of the object

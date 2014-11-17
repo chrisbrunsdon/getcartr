@@ -11,6 +11,7 @@
 #' @param res The resolution of the grid for the warping
 #' @param index Index of data item to be used for cartogram - only used if \code{v} is missing
 #' @param thresh Lowest density value allowed - will replace pixels with \code{max(value,thresh)}
+#' @param blur Degree of Gaussian blur to apply to density grid,  prior to computing the cartogram transform - default is 0
 #' @return A \code{SpatialPolygonsDataFrame} containing the cartogram.  Also has an 
 #' attribute - \code{attr(spdf,'mesh')} - containing information about the cartogram
 #' warping grid 
@@ -25,9 +26,9 @@
 #' plot(georgia2)
 #' plot(georgia.carto)
 
-quick.carto <- function(spdf,v,extend=0.05,res=128,index=1,thresh=0) {
+quick.carto <- function(spdf,v,extend=0.05,res=128,index=1,thresh=0,blur=0) {
   cart.pix <- .poly2grid(spdf,v,extend,res,index,thresh)
-  cart.warp <- .cartogram.WarpGrid(cart.pix)
+  cart.warp <- .cartogram.WarpGrid(cart.pix,blur=blur)
   res <- .direct.warp.polys(spdf,cart.warp)
   attr(res,"warp") <- cart.warp
   return(res)}
