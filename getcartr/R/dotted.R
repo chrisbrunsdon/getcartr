@@ -183,11 +183,11 @@ library(Rcartogram)
   res}
 
 .interpolate <- function(inpts,grid) {
-  xr <- nrow(grid$x):0
-  yr <- ncol(grid$y):0
-  newx <- .interp.core(list(x=xr,y=yr,z=grid$y),inpts)
-  newy <- .interp.core(list(x=xr,y=yr,z=grid$x),inpts)
-  return(cbind(max(xr)-newx,max(yr)-newy))
+  xr <- 0:nrow(grid$x)
+  yr <- 0:ncol(grid$y)
+  newx <- .interp.core(list(x=xr,y=yr,z=grid$x),inpts)
+  newy <- .interp.core(list(x=xr,y=yr,z=grid$y),inpts)
+  return(cbind(newx,newy))
 }
 
 
@@ -198,8 +198,8 @@ library(Rcartogram)
   z <- obj$z
   nx <- length(x)
   ny <- length(y)
-  lx <- approx(x, 1:nx, loc[, 1])$y
-  ly <- approx(y, 1:ny, loc[, 2])$y
+  lx <- approx(x, 1:nx, loc[, 2])$y
+  ly <- approx(y, 1:ny, loc[, 1])$y
   lx1 <- floor(lx)
   ly1 <- floor(ly)
   ex <- lx - lx1

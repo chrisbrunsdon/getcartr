@@ -32,6 +32,6 @@ dispersion <- function(spdf,add=FALSE,col='red') {
   if (add) {
     points(x,y,pch='.',col=col)
   } else {
-  plot(x,y,axes=FALSE,asp=1,pch='.',xlim=c(0,dims[1]+1),ylim=c(0,dims[2]+1),col=col)
+  plot(x,y,axes=FALSE,asp=1,pch='.',xlim=c(0,dims[1]+1),ylim=c(0,dims[2]+1),col=col,xlab='',ylab='')
   }
 }
