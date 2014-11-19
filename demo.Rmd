@@ -3,6 +3,9 @@ output:
   pdf_document:
     highlight: haddock
     number_sections: yes
+  html_document:
+    highlight: kate
+    theme: spacelab
 ---
 A Front End For the Rcartogram Package
 ========================================================
@@ -28,7 +31,7 @@ title("Original Projection")
 plot(georgia.carto)
 title("Cartogram Projection")
 ```
-\newpage
+
 
 and plot the transformation mesh:
 
@@ -42,7 +45,7 @@ georgia.carto <- quick.carto(georgia2,georgia2$TotPop90)
 dispersion(georgia.carto, col='darkred')
 ```
 
-\newpage
+
 and apply the cartogram transform to new sets of points:
 ```{r fig.width=11, fig.height=7}
 # Create a set of 25 points from northwest to southeast corners
@@ -62,7 +65,7 @@ plot(georgia.carto,border='grey'); plot(pset.carto, add=T, col='red')
 title('Cartogram projection')
 ```
 
-\newpage
+
 or lines:
 ```{r fig.width=11, fig.height=7}
 # Create a line from southwest to northeast corners,  with 100 segments
@@ -83,7 +86,7 @@ plot(georgia.carto,border='grey'); plot(aline.carto, add=T, col='red')
 title('Cartogram projection')
 ```
 
-\newpage
+
 ... or areas.
 ```{r fig.width=11, fig.height=7}
 # Create a pseudocircle with 100 segments
@@ -103,7 +106,7 @@ plot(georgia.carto,border='grey'); plot(circ.carto, add=T, col=rgb(1,0,0,0.4), b
 title('Cartogram projection')
 ```
 
-\newpage
+
 
 # Alternative approach
 Use the `carto.transform` function to create a new *function* to apply the cartogram transform to any shapefile.  This function automatically determines whether the input object is `SpatialPolygons*`, `SpatialLines*` or `SpatialPoints*`.  Here the Newhaven data in `GISTools` will be used:
@@ -132,7 +135,7 @@ plot(to.carto(roads),add=TRUE,col='lightgrey')
 plot(to.carto(burgres.f),add=TRUE,col='darkred',pch=16)
 ```
 
-\newpage
+
 
 # Diagnostics
 Next,  a few visual diagnostics.  Firstly,  superimpose the dispersion diagram on the cartogram itself.  Secondly,  plot the cartogram variable against the actual area of the corresponding polygon in the cartogram.  Ideally these should lie on a straight line going through the origin.
@@ -169,7 +172,28 @@ result = NULL
 res.list <- c(128,192,256,320,384)
 for (r in res.list) result <- c(result,
     cart.r2(quick.carto(blocks,res=r,blocks$POP1990,thresh=0.1),blocks$POP1990))
-cbind(res.list,result)
+result <- cbind(res.list,result)
+result
 ```
+
+and show this as a graph
+
+```{r}
+plot(result,xlab='Resolution',ylab=expression(R^2),type='b')
+```
+
+The straight line fitted through the origin can also be used as a basis to identify whether areas are under or over represented,  by considering the residual value $y_i - \hat{s}x_i$ for each zone $i$.  Positive values of this suggest under representation, and negative values suggest over representation (although the $R^2$ figures above suggest the degree of error is very small).  These residuals can be computed using the `cart.resids` function,  and then mapped.  Here they are mapped in both cartogram space and the standard map projection.
+
+```{r fig.width=11, fig.height=7}
+par(mfrow=c(1,2),mar=c(1,1,1,1))
+resids <- cart.resids(blocks.cart,blocks$POP1990)
+shades <- auto.shading(c(resids,-resids),n=5,col=brewer.pal(5,'RdBu'))
+choropleth(blocks,resids,shading=shades)
+title('Discrepancy (Cartogram Pixels) - Standard Projection')
+choropleth(blocks.cart,resids,shading=shades)
+choro.legend(100,100,shades)
+title('Discrepancy (Cartogram Pixels) - Cartogram Projection')
+```
+
 
 
