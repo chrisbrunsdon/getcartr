@@ -38,8 +38,8 @@ data(georgia)
 # Create the cartogram.  TotPop90 contains 1990 county populations
 # "georgia2" is used as it has a plane projection coordinate system
 georgia.carto <- quick.carto(georgia2,georgia2$TotPop90)
-# Draw the mesh
-mesh(georgia.carto)
+# Draw the dispersion plot
+dispersion(georgia.carto, col='darkred')
 ```
 
 \newpage
@@ -118,7 +118,10 @@ plot(roads,col='lightgrey',add=TRUE) # Roads
 plot(burgres.f,col='darkred',pch=16,add=TRUE) # Forced entry burglaries
 
 # Create the cartogram transform function
-to.carto <- carto.transform(blocks,blocks$POP1990)
+# The 'res' here gives the resolution of the cartogram interpolation grid 
+# - default is 128,  so here we have 4 times that resolution. Slower but
+# more accurate...
+to.carto <- carto.transform(blocks,blocks$POP1990,res=512)
 
 # Now create a cartogram version of the map
 # Plot the blocks carto
@@ -127,6 +130,46 @@ plot(to.carto(blocks))
 plot(to.carto(roads),add=TRUE,col='lightgrey')
 # Add forced entry residential burglaries, transformed to cartogram space
 plot(to.carto(burgres.f),add=TRUE,col='darkred',pch=16)
+```
+
+\newpage
+
+# Diagnostics
+Next,  a few visual diagnostics.  Firstly,  superimpose the dispersion diagram on the cartogram itself.  Secondly,  plot the cartogram variable against the actual area of the corresponding polygon in the cartogram.  Ideally these should lie on a straight line going through the origin.
+```{r fig.width=11, fig.height=7}
+# Superimpose dispersion diagram on cartogram:
+par(mfrow=c(1,2),mar=c(0.5,0.5,3,0.5))
+blocks.cart <- to.carto(blocks)
+plot(blocks.cart)
+dispersion(blocks.cart,col=rgb(0.5,0,0,0.3),add=TRUE)
+# Scatterplot the cartogram variable against actual zone area
+par(mar=c(5,5,5,5))
+cartvar <- blocks$POP1990
+cartarea <- poly.areas(blocks.cart)
+plot(cartvar,cartarea,
+     xlab='Population',ylab='Cartogram "Pixels"')
+abline(lm(cartarea~0+cartvar),lty=2)
+```
+
+Finally,  a numerical diagnostic also exists.  Based on the idea that, from the definition,  an ideal cartogram transform will create a set of zones whose area is proportional to the chosen statistical variable associated with each zone.  Thus,  as stated above,  these two quantities, when plotted, should lie on a straight line passing through the origin. Thus,  the $R^2$ statistic obtained when regressing one on the other **without an intercept** should be equal to one.  If $x_i$ is the area of zone $i$ in cartogram space,  and $y_i$ is the associated value of the cartogram variable,  then the estimated slope of the line, $\hat{s}$ is given by 
+
+$$ \hat{s} = \frac{\sum_i x_iy_i}{\sum x_i^2} $$
+
+and then 
+
+$$ R^2 = \frac{\sum_i{\left( \hat{s} x_i \right)}^2}{\sum_i{\left( \hat{s} x_i \right)}^2 + \sum_i{\left( y_i - \hat{s} x_i \right)}^2} $$
+
+The `cart.r2` function computes this quantity:
+
+```{r}
+# Check out the r-squared for the cartogram just made...
+cart.r2(blocks.cart,blocks$POP1990)
+# Now try it for different resolutions
+result = NULL
+res.list <- c(128,192,256,320,384)
+for (r in res.list) result <- c(result,
+    cart.r2(quick.carto(blocks,res=r,blocks$POP1990,thresh=0.1),blocks$POP1990))
+cbind(res.list,result)
 ```
 
 
