@@ -1,5 +1,8 @@
 ---
 output:
+  html_document:
+    highlight: kate
+    theme: spacelab
   pdf_document:
     highlight: haddock
     number_sections: yes
