@@ -3,14 +3,14 @@
 \alias{mesh}
 \title{Visual representation of cartogram transformation}
 \usage{
-mesh(spdf, add = FALSE, col = "red")
+mesh(sldf, add = FALSE, col = "red")
 }
 \arguments{
-\item{spdf}{A \code{SpatialPolygonsDataFrame}  created via the \code{quick.carto} function}
-
 \item{add}{Whether to add the graphic to an existing plot}
 
 \item{col}{Colour of the graphic}
+
+\item{spdf}{A \code{SpatialPolygonsDataFrame}  created via the \code{quick.carto} function or similar}
 }
 \description{
 Given a transformed Spatial object draws the warping grid

@@ -4,7 +4,7 @@
 #'
 #' 
 #' @export
-#' @param spdf  A \code{SpatialPolygonsDataFrame}  created via the \code{quick.carto} function
+#' @param spdf  A \code{SpatialPolygonsDataFrame}  created via the \code{quick.carto} function or similar
 #' @param add   Whether to add the graphic to an existing plot
 #' @param col  Colour of the graphic
 #' @references 
@@ -24,15 +24,13 @@
 
 
 
-mesh <- function(spdf,add=FALSE,col='red') {
-  grid <- attr(spdf,'warp')
-  if (is.null(grid)) stop("Object not created via 'quick.carto'")
-  dims = .grdim(grid)
-  steps = min((dims-2)/32)
-  if (!add) plot(grid,asp=1,type='n',xlim=c(-1,dims[1]+1),ylim=c(-1,dims[2]+1),xlab='',ylab='',axes=FALSE)
-  for (i in seq(2,dims[1],by=steps)) {
-    xin = cbind(rep(i,dims[2]-1),2:(dims[2]))
-    lines(.interpolate(xin,grid),col=col) }
-  for (i in seq(2,dims[2],by=steps)) {
-    xin = cbind(2:(dims[1]),rep(i,dims[1]-1))
-    lines(.interpolate(xin,grid),col=col) }  }
+mesh <- function(sldf,add=FALSE,col='red') {
+  grat <- .graticule(sldf)
+  wgrat <- warp.lines(grat,sldf)
+  if (add) {
+    plot(wgrat,add=TRUE,col=col)
+  }
+  else {
+    plot(wgrat,col=col)
+  }
+}

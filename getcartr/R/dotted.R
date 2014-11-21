@@ -243,3 +243,29 @@ library(Rcartogram)
   return(result)
 }
 
+
+.linex <- function(a,b,c) {
+  sprintf("LINESTRING(%f %f, %f %f)",a,b,a,c)
+}
+
+.liney <- function(a,b,c) {
+  sprintf("LINESTRING(%f %f, %f %f)",b,a,c,a)
+}
+
+.merge.lines <- function(x) sprintf('GEOMETRYCOLLECTION(%s)',paste0(x,collapse=','))
+
+# Base it on cents and sizes of warp grd
+.graticule <- function(x) {
+  cents <- attr(attr(x,'warp'),'cents')
+  sizes <- attr(attr(x,'warp'),'sizes')
+  dimn <- dim(attr(x,'warp')$x)
+  xmin <- cents[1] + sizes[1]
+  ymin <- cents[2] + sizes[1]
+  xmax <- cents[1]+sizes[1]*(dimn[1] - 2)
+  ymax <- cents[2]+sizes[2]*(dimn[2] - 2)
+  xgrat <- seq(xmin,xmax,l=51) 
+  ygrat <- seq(ymin,ymax,l=51) 
+  xlines <- sapply(xgrat,function(x) .linex(x,ymin,ymax))
+  ylines <- sapply(ygrat,function(x) .liney(x,xmin,xmax))
+  readWKT(.merge.lines(c(xlines,ylines)))
+}
