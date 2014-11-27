@@ -45,7 +45,8 @@ library(Rcartogram)
 	for (item in as.numeric(names(unimap))) {
 		res[mapper == item] = lut[item]/unimap[item] }
 	res[is.na(res)] = sum(res[!is.na(res)])/sum(!is.na(res))
-	res[res < thresh] = thresh*mean(res)
+  plateau <- thresh * mean(res)
+	res[res < plateau] <- plateau
 	SpatialPixelsDataFrame(spg,data.frame(dens=res))}
 
  
