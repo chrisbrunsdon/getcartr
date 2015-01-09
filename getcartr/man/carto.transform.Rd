@@ -4,7 +4,7 @@
 \title{Create a warping function to apply to Spatial* and Spatial*DataFrame objects}
 \usage{
 carto.transform(spdf, v, extend = 0.05, res = 128, index = 1,
-  thresh = 0.1, blur = 0, prec = 0.5)
+  thresh = 0.1, blur = 0, prec = 0.5, gapdens = 1)
 }
 \arguments{
 \item{spdf}{A \code{SpatialPolygonsDataFrame}}
@@ -22,6 +22,8 @@ carto.transform(spdf, v, extend = 0.05, res = 128, index = 1,
 \item{blur}{Degree of Gaussian blur to apply to density grid,  prior to computing the cartogram transform}
 
 \item{prec}{The precision when carrying out interpolation, in units of the warping grid - 0.5 works well}
+
+\item{gapdens}{The density to assign to gaps between the polygons - relative to average density.}
 }
 \value{
 a function taking a \code{Spatial*} or \code{Spatial*DataFrame} object,  returning a warped version of the object

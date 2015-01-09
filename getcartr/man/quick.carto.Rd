@@ -4,7 +4,7 @@
 \title{Create a cartogram SpatialPolygonsDataFrame}
 \usage{
 quick.carto(spdf, v, extend = 0.05, res = 128, index = 1, thresh = 0,
-  blur = 0, prec = 0.5)
+  blur = 0, prec = 0.5, gapdens = 1)
 }
 \arguments{
 \item{spdf}{A \code{SpatialPolygonsDataFrame}}
@@ -22,6 +22,8 @@ quick.carto(spdf, v, extend = 0.05, res = 128, index = 1, thresh = 0,
 \item{blur}{Degree of Gaussian blur to apply to density grid,  prior to computing the cartogram transform - default is 0}
 
 \item{prec}{The precision when carrying out interpolation, in units of the warping grid - 0.5 works well}
+
+\item{gapdens}{The density to assign to gaps between the polygons - relative to average density.}
 }
 \value{
 A \code{SpatialPolygonsDataFrame} containing the cartogram.  Also has an
