@@ -31,7 +31,7 @@ library(Rcartogram)
 	proj4string(res) = CRS(proj4string(spdf))
 	res}
 
-.poly2grid <- function(spdf,var,extend=0.05,res=128,index=1,thresh=0) {
+.poly2grid <- function(spdf,var,extend=0.05,res=128,index=1,thresh=0,gapdens=1) {
 	spg = .covergrid(spdf,extend=extend,res=res)
 	if (missing(var)) {
     lut = data.frame(spdf)[,index]
@@ -44,7 +44,7 @@ library(Rcartogram)
 	unimap = table(mapper)
 	for (item in as.numeric(names(unimap))) {
 		res[mapper == item] = lut[item]/unimap[item] }
-	res[is.na(res)] = sum(res[!is.na(res)])/sum(!is.na(res))
+	res[is.na(res)] = gapdens * sum(res[!is.na(res)])/sum(!is.na(res))
   plateau <- thresh * mean(res)
 	res[res < plateau] <- plateau
 	SpatialPixelsDataFrame(spg,data.frame(dens=res))}

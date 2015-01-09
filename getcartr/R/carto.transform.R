@@ -11,6 +11,7 @@
 #' @param thresh Lowest density value allowed - will replace pixels with \code{max(value,thresh*mean(value))} - 0.1 works well 
 #' @param blur Degree of Gaussian blur to apply to density grid,  prior to computing the cartogram transform 
 #' @param prec The precision when carrying out interpolation, in units of the warping grid - 0.5 works well
+#' @param gapdens The density to assign to gaps between the polygons - relative to average density. 
 #' @return a function taking a \code{Spatial*} or \code{Spatial*DataFrame} object,  returning a warped version of the object
 #' 
 #' @references A Diffusion-based method for producing density equalizing maps, Michael T. Gastner and M. E. J. Newman, Proc. Natl. Acad. Sci. USA 101, 7499-7504 (2004)
@@ -33,8 +34,8 @@
 #' 
 #' 
 #' 
-carto.transform <- function(spdf,v,extend=0.05,res=128,index=1,thresh=0.1,blur=0,prec=0.5) {
-  poly <- quick.carto(spdf,v,extend,res,index,thresh,blur)
+carto.transform <- function(spdf,v,extend=0.05,res=128,index=1,thresh=0.1,blur=0,prec=0.5,gapdens=1) {
+  poly <- quick.carto(spdf,v,extend,res,index,thresh,blur,prec,gapdens)
   result <- function(obj) {
     if (grepl("SpatialPolygons",class(obj))) return(warp.polys(obj,poly,prec=prec))
     if (grepl("SpatialPoints",class(obj))) return(warp.points(obj,poly))
