@@ -4,7 +4,7 @@ Title: Front end for Rcartogram package
 Version: 1.0
 Depends: GISTools, Rcartogram
 Date: 2014-11-14
-Author: Chris Brunsdon
+Author: Chris Brunsdon and Martin Charlton
 Maintainer: Chris Brunsdon <christopher.brunsdon@nuim.ie>
 Description: A package that sits on top of Rcartogram and provides a front end
     to provide tools to make cartograms easily.
