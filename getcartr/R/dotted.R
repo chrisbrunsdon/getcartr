@@ -31,23 +31,23 @@ library(Rcartogram)
 	proj4string(res) = CRS(proj4string(spdf))
 	res}
 
-.poly2grid <- function(spdf,var,extend=0.05,res=128,index=1,thresh=0,gapdens=1) {
-	spg = .covergrid(spdf,extend=extend,res=res)
-	if (missing(var)) {
-    lut = data.frame(spdf)[,index]
-	}
-  else {
-    lut = var  
-  }
-	mapper = spg %over% as(spdf,"SpatialPolygons")
-	res = mapper + NA
-	unimap = table(mapper)
-	for (item in as.numeric(names(unimap))) {
-		res[mapper == item] = lut[item]/unimap[item] }
-	res[is.na(res)] = gapdens * sum(res[!is.na(res)])/sum(!is.na(res))
-  plateau <- thresh * mean(res)
-	res[res < plateau] <- plateau
-	SpatialPixelsDataFrame(spg,data.frame(dens=res))}
+# .poly2grid <- function(spdf,var,extend=0.05,res=128,index=1,thresh=0,gapdens=1) {
+# 	spg = .covergrid(spdf,extend=extend,res=res)
+# 	if (missing(var)) {
+#     lut = data.frame(spdf)[,index]
+# 	}
+#   else {
+#     lut = var  
+#   }
+# 	mapper = spg %over% as(spdf,"SpatialPolygons")
+# 	res = mapper + NA
+# 	unimap = table(mapper)
+# 	for (item in as.numeric(names(unimap))) {
+# 		res[mapper == item] = lut[item]/unimap[item] }
+# 	res[is.na(res)] = gapdens * sum(res[!is.na(res)])/sum(!is.na(res))
+#   plateau <- thresh * mean(res)
+# 	res[res < plateau] <- plateau
+# 	SpatialPixelsDataFrame(spg,data.frame(dens=res))}
 
  
  .poly2testgrid <- function(spdf,extend=0.05,res=256,index=1,thresh=0.1) { 
@@ -55,6 +55,31 @@ library(Rcartogram)
  spg <- .covergrid(spdf,extend=extend,res=res) 
  SpatialPixelsDataFrame(coordinates(spg),data.frame(dens=rescale(coordinates(spg)[,2])))}
  
+ .poly2grid <- function (spdf, var, extend = 0.05, res = 128, index = 1, thresh = 0,
+                          gapdens = 1)
+ {
+   spg = .covergrid(spdf, extend = extend, res = res)    # create grid wit require point spacing
+   if (missing(var)) {
+     lut = data.frame(spdf)[, index]                              # stock variable in data slot
+   }
+   else {
+     lut = var                                                    # stock variable in argument list
+   }
+   mapper = spg %over% as(spdf, "SpatialPolygons")      # mesh points in which polygon
+   res = mapper + NA
+   unimap = table(mapper)
+   #for (item in as.numeric(names(unimap))) {
+   #    res[mapper == item] = lut[item]/unimap[item]
+   #}
+   for (item in names(unimap)) {
+     n.item <- as.numeric(item)
+     res[mapper == n.item] <- lut[n.item] / unimap[item]
+   }
+   res[is.na(res)] = gapdens * sum(res[!is.na(res)])/sum(!is.na(res))
+   plateau <- thresh * mean(res)
+   res[res < plateau] <- plateau
+   SpatialPixelsDataFrame(spg, data.frame(dens = res))
+ }
 
 # cartogram.WarpGrid <- function(spg,blur=0) {
 # 	densmat = spg$dens
