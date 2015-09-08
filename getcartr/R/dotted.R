@@ -193,7 +193,7 @@ library(Rcartogram)
   warpverb <- function(xy,wg) {
     cents = attr(wg,"cents")
     sizes = attr(wg,"sizes")
-    xyt = (xy-cents[col(xy)]) %*% diag(1/sizes)
+    xyt = t((t(xy)-cents)/sizes)
     xyt <- .decimate(xyt,prec)
     .interpolate(xyt,wg)}
   .apply.polys(spdf,warpverb,wg) }
