@@ -265,7 +265,7 @@ library(Rcartogram)
   nr <- nrow(x)
   result <- .decimate.core(x[1:2,],pr)
   if (nr>2)
-    for (i in 3:nrow(x)) result <- rbind(result,.decimate.core(x[c(i-1,i),],pr)[-1,])
+    for (i in 3:nr) result <- rbind(result,.decimate.core(x[c(i-1,i),],pr)[-1,])
   return(result)
 }
 
